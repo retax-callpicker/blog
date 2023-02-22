@@ -1,0 +1,42 @@
+<?php
+class PostsController extends AppController {
+
+    var $name = 'Posts';
+
+    function index() {
+        $this->set('posts', $this->Post->find('all'));
+    }
+
+    function view($id = null) {
+        $this->Post->id = $id;
+        $this->set('post', $this->Post->read());
+    }
+
+    function add() {
+        if (!empty($this->data)) {
+            if ($this->Post->save($this->data)) {
+                $this->Session->setFlash('¡Post guardado!');
+                $this->redirect(array('action' => 'index'));
+            }
+        }
+    }
+
+    function edit($id = null) {
+        $this->Post->id = $id;
+        if (empty($this->data)) {
+            $this->data = $this->Post->read();
+        } else {
+            if ($this->Post->save($this->data)) {
+                $this->Session->setFlash('El post se ha actualizado.');
+                $this->redirect(array('action' => 'index'));
+            }
+        }
+    }
+
+    function delete($id) {
+        $this->Post->del($id);
+        $this->Session->setFlash('El post con id: '.$id.' ha sido eliminado.');
+        $this->redirect(array('action'=>'index'));
+    }
+
+}

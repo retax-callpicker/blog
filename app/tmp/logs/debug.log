@@ -1,0 +1,4 @@
+2023-02-22 16:10:59 Notice: Notice (8): Undefined variable: El título in [APP/views/posts/index.ctp, line 17]
+2023-02-22 16:10:59 Notice: Notice (8): Undefined variable: Un título otra vez in [APP/views/posts/index.ctp, line 17]
+2023-02-22 16:10:59 Notice: Notice (8): Undefined variable: Título ataca de nuevo in [APP/views/posts/index.ctp, line 17]
+2023-02-22 16:12:19 Notice: Notice (8): Undefined property: View::$Html in [APP/views/posts/index.ctp, line 2]
