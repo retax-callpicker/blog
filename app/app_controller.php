@@ -42,7 +42,7 @@ class AppController extends Controller {
     }
 
     
-    function _encodeJsonResponse($code = 200, $payload = array(), $message = "", $errors = array()){
+    function _encodeJsonResponse($payload = array(), $message = "", $errors = array(), $code = 200){
         $this->autoRender = false;
         $this->header('Access-Control-Allow-Methods: *');
         $this->header('Access-Control-Allow-Origin: *');
