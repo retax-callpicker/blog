@@ -32,7 +32,7 @@
  */
 
 	Router::mapResources('posts');
-	//Router::connect ('/', array('controller'=>'posts', 'action'=>'index'));
+	Router::connect ('/', array('controller'=>'posts', 'action'=>'render_vue'));
 	//Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 /**
  * ...and connect the rest of 'Pages' controller's urls.

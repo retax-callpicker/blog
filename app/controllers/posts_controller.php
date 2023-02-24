@@ -3,6 +3,8 @@ class PostsController extends AppController {
 
     var $name = 'Posts';
 
+    function render_vue() {}
+
     function index() {
         return $this->_encodeJsonResponse($this->Post->find('all'));
     }
