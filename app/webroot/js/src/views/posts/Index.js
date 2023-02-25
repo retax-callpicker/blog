@@ -26,7 +26,6 @@ const posts = function() {
         data() {
             return {
                 isBusy: true,
-                info: null,
                 table: []
             }
         },
@@ -34,7 +33,13 @@ const posts = function() {
         mounted () {
             fetch('https://black.digitum.com.mx/retax/blog/practica/posts')
                 .then(response => response.json())
-                .then(response => (this.info = response))
+                .then(response => {
+                    store.commit("setInfo", { response });
+                })
+        },
+
+        computed: {
+            ...Vuex.mapState(["info"])
         },
 
         watch: {

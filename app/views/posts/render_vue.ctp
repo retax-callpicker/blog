@@ -4,6 +4,7 @@ $libraries = array(
     "vuejs/polyfill.min.js",
     "vuejs/2.6.12/vue.js",
     "vuejs/vue-router.js",
+    "vuejs/vuex/vuex.js",
     "bootstrap-vue/v2.21.0/bootstrap-vue.min.js"
 );
 
@@ -13,6 +14,7 @@ $vue_views = array(
     "src/views/posts/PostCreate.js",
     "src/App.js",
     "src/router/index.js",
+    "src/store/index.js",
 );
 
 $vue_components = array(

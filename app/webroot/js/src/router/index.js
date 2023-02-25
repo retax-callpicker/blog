@@ -7,7 +7,7 @@ const routes = [
     {
         path: '/create',
         name: 'postCreate',
-        component: postCreate
+        component: postsCreate
     }
 ]
   

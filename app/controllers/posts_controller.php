@@ -19,9 +19,10 @@ class PostsController extends AppController {
         $response = "";
         $error = false;
         $errors = array();
+        $data = json_decode(file_get_contents('php://input'));
 
-        if (!empty($_POST)) {
-            if ($post = $this->Post->save($_POST)) {
+        if (!empty($data)) {
+            if ($post = $this->Post->save($data)) {
                 $response = $post;
             }
             else {
@@ -44,9 +45,10 @@ class PostsController extends AppController {
         $response = "";
         $error = false;
         $errors = array();
+        $data = json_decode(file_get_contents('php://input'));
         $this->Post->id = $id;
 
-        if ($post = $this->Post->save($_POST)) {
+        if ($post = $this->Post->save($data)) {
             $response = $post;
         }
         else {
