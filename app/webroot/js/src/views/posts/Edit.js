@@ -34,6 +34,13 @@ const edit = function() {
                 ></b-form-textarea>
             </b-form-group>
 
+            <b-form-file
+                v-model="form.file"
+                placeholder="Elige una imagen o arrástrala aquí"
+                drop-placeholder="Suelta tu imagen aquí"
+            ></b-form-file>
+            <div class="my-3">Archivo seleccionado: {{ form.file ? form.file.name : '' }}</div>
+
             <b-button type="submit" variant="primary">Editar post</b-button>
             <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
             <router-link 
@@ -54,7 +61,8 @@ const edit = function() {
                 isLoading: true,
                 form: {
                     title: '',
-                    body: ''
+                    body: '',
+                    file: null
                 }
             }
         },
@@ -77,12 +85,20 @@ const edit = function() {
 
                 event.preventDefault();
 
+                const formData = new FormData();
+
+                if(this.form.title)
+                    formData.append("title", this.form.title);
+                
+                if(this.form.body)
+                    formData.append("body", this.form.body);
+                
+                if(this.form.file)
+                    formData.append("image", this.form.file);
+
                 fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${this.$route.params.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.form)
+                    method: 'POST',
+                    body: formData
                 })
                 .then(response => response.json())
                 .then(response => {
@@ -100,6 +116,7 @@ const edit = function() {
                 // Reset our form values
                 this.form.title = ''
                 this.form.body = ''
+                this.form.file = null
 
             }
 

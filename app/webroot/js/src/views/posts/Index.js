@@ -28,7 +28,7 @@ const posts = function() {
             <b-button>Agregar Post</b-button>
         </router-link>
 
-        <b-table :items="table" :busy="isBusy" class="mt-3" outlined>
+        <b-table :style="{textAlign: 'center'}" :items="table" :busy="isBusy" class="mt-3" outlined>
 
             <template #cell(title)="data">
                 <router-link 
@@ -39,6 +39,17 @@ const posts = function() {
                         }
                     }"
                 >{{ data.value.title }}</router-link>
+            </template>
+
+            <template #cell(image)="data">
+                <div 
+                    class="mx-auto"
+                    :style="{
+                        maxWidth: '300px'
+                    }"
+                >
+                    <b-img thumbnail :src="'/retax/blog/practica/files/' + data.value" fluid alt="Imagen"></b-img>
+                </div>
             </template>
 
             <template #cell(actions)="data">
@@ -151,6 +162,7 @@ const posts = function() {
                                 id: post.Post.id,
                             },
                             body: post.Post.body,
+                            image: post.Post.image,
                             actions: {
                                 id: post.Post.id,
                                 title: post.Post.title,

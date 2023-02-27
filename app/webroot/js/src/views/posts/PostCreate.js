@@ -79,11 +79,10 @@ const postsCreate = function() {
                 })
                 .then(response => response.json())
                 .then(response => {
-                    console.log(response);
-                    /* store.commit("addPost", { response });
+                    store.commit("addPost", { response });
                     this.$router.push({
                         name: "posts"
-                    }); */
+                    });
                 });
               
             },

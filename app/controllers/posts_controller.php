@@ -23,17 +23,15 @@ class PostsController extends AppController {
 
         if (!empty($_POST) && !empty($_FILES)) {
 
-            $name = pathinfo($_FILES["image"]["name"]);
-            $name = time() . "." . $name["extension"];
-            $upload_to = realpath("./files") . "/$name";
+            $move = $this->_uploadFile($_FILES);
 
-            if (move_uploaded_file($_FILES["image"]["tmp_name"], $upload_to)) {
+            if ($move["move_message"]) {
 
                 $post = array(
                     "Post" => array(
                         "title" => $_POST["title"],
                         "body" => $_POST["body"],
-                        "image" => $name
+                        "image" => $move["name"]
                     )
                 );
 
@@ -43,7 +41,6 @@ class PostsController extends AppController {
                 else {
                     $error = true;
                     $errors[] = "Data error";
-                    $errors[] = $post_saved;
                 }
 
             }
@@ -67,10 +64,30 @@ class PostsController extends AppController {
         $response = "";
         $error = false;
         $errors = array();
-        $data = json_decode(file_get_contents('php://input'));
+        //$data = json_decode(file_get_contents('php://input')); <- No aceptamos JSON
         $this->Post->id = $id;
+        $post = $this->Post->read();
+        $post = $post["Post"];
 
-        if ($post = $this->Post->save($data)) {
+        // Valido los campos que fueron enviados para actualizarlos
+        if (!empty($_FILES)) {
+
+            $move = $this->_uploadFile($_FILES);
+
+            if (!$move["move_message"])
+                return $this->_encodeJsonResponse("", "", array("Error subiendo el archivo."));
+            
+            $this->_deleteFile($post["image"]);
+
+            $post["image"] = $move["name"];
+
+        }
+
+        $post["title"] = $_POST["title"] ? $_POST["title"] : $post["title"];
+        $post["body"] = $_POST["body"] ? $_POST["body"] : $post["body"];
+
+        // Guardo y respondo
+        if ($post = $this->Post->save($post)) {
             $response = $post;
         }
         else {
@@ -84,8 +101,29 @@ class PostsController extends AppController {
 
     function delete($id = null) {
         $this->autoRender = false;
+        $this->Post->id = $id;
+        $post = $this->Post->read();
+        $this->_deleteFile($post["Post"]["image"]);
         $this->Post->del($id);
         $this->_httpRespCode(204);
+    }
+
+    function _uploadFile($file) {
+
+        $name = pathinfo($file["image"]["name"]);
+        $name = time() . "." . $name["extension"];
+        $upload_to = realpath("./files") . "/$name";
+
+        return array(
+            "move_message" => move_uploaded_file($file["image"]["tmp_name"], $upload_to),
+            "name" => $name
+        );
+        
+    }
+
+    function _deleteFile($filename) {
+        $unlink_path = realpath("./files/$filename");
+        unlink($unlink_path);
     }
 
 }
