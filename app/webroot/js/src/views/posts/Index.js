@@ -4,7 +4,7 @@ const posts = function() {
     <div class="my-5 px-5">
 
         <router-link 
-            to="/create"
+            :to="{name: 'postCreate'}"
         >
             <b-button>Agregar Post</b-button>
         </router-link>

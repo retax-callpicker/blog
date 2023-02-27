@@ -1,9 +1,14 @@
-const postsCreate = function() {
+const edit = function() {
 
     const template = /*html*/`
     <div class="my-5 px-5">
 
-        <b-form @submit="onSubmit" @reset="onReset">
+        <div class="text-center" v-if="isLoading">
+            <b-spinner variant="primary" label="Cargando..."></b-spinner><br>
+            <span>Cargando...</span>
+        </div>
+
+        <b-form @submit="onSubmit" @reset="onReset" v-else>
 
             <b-form-group id="input-group-1" label="Título" label-for="input-1">
                 <b-form-input
@@ -29,7 +34,7 @@ const postsCreate = function() {
                 ></b-form-textarea>
             </b-form-group>
 
-            <b-button type="submit" variant="primary">Agregar post</b-button>
+            <b-button type="submit" variant="primary">Editar post</b-button>
             <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
 
         </b-form>
@@ -41,11 +46,24 @@ const postsCreate = function() {
 
         data() {
             return {
+                isLoading: true,
                 form: {
                     title: '',
                     body: ''
                 }
             }
+        },
+
+        mounted () {
+
+            fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${this.$route.params.id}`)
+                .then(response => response.json())
+                .then(response => {
+                    this.form.title = response.payload.Post.title;
+                    this.form.body = response.payload.Post.body;
+                    this.isLoading = false;
+                });
+
         },
 
         methods: {
@@ -54,8 +72,8 @@ const postsCreate = function() {
 
                 event.preventDefault();
 
-                fetch('https://black.digitum.com.mx/retax/blog/practica/posts', {
-                    method: 'POST',
+                fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${this.$route.params.id}`, {
+                    method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },

@@ -5,9 +5,19 @@ const routes = [
         component: posts
     },
     {
-        path: '/create',
+        path: '/posts/create',
         name: 'postCreate',
         component: postsCreate
+    },
+    {
+        path: '/posts/:id',
+        name: 'post',
+        component: post
+    },
+    {
+        path: '/posts/edit/:id',
+        name: 'editPost',
+        component: edit
     }
 ]
   
