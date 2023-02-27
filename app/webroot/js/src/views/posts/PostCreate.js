@@ -26,6 +26,7 @@ const postsCreate = function() {
                     placeholder="Escribe tu post"
                     rows="3"
                     max-rows="6"
+                    required
                 ></b-form-textarea>
             </b-form-group>
 
@@ -34,6 +35,7 @@ const postsCreate = function() {
                 :state="Boolean(form.file)"
                 placeholder="Elige una imagen o arrástrala aquí"
                 drop-placeholder="Suelta tu imagen aquí"
+                required
             ></b-form-file>
             <div class="my-3">Archivo seleccionado: {{ form.file ? form.file.name : '' }}</div>
 
@@ -68,22 +70,29 @@ const postsCreate = function() {
 
                 event.preventDefault();
 
-                const formData = new FormData();
-                formData.append("title", this.form.title);
-                formData.append("body", this.form.body);
-                formData.append("image", this.form.file);
+                if (this.form.title && this.form.body && this.form.file) {
 
-                fetch('https://black.digitum.com.mx/retax/blog/practica/posts', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(response => {
-                    store.commit("addPost", { response });
-                    this.$router.push({
-                        name: "posts"
+                    const formData = new FormData();
+                    formData.append("title", this.form.title);
+                    formData.append("body", this.form.body);
+                    formData.append("image", this.form.file);
+    
+                    fetch('https://black.digitum.com.mx/retax/blog/practica/posts', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        store.commit("addPost", { response });
+                        this.$router.push({
+                            name: "posts"
+                        });
                     });
-                });
+
+                }
+                else {
+                    alert("Completa todos los campos!");
+                }
               
             },
 

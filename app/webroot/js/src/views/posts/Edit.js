@@ -15,7 +15,6 @@ const edit = function() {
                     id="input-1"
                     v-model="form.title"
                     placeholder="Introduce el título del post"
-                    required
                 ></b-form-input>
             </b-form-group>
 
@@ -86,27 +85,34 @@ const edit = function() {
                 event.preventDefault();
 
                 const formData = new FormData();
-
-                if(this.form.title)
-                    formData.append("title", this.form.title);
                 
-                if(this.form.body)
-                    formData.append("body", this.form.body);
-                
-                if(this.form.file)
-                    formData.append("image", this.form.file);
+                if (this.form.title || this.form.body || this.form.file) {
 
-                fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${this.$route.params.id}`, {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(response => {
-                    store.commit("addPost", { response });
-                    this.$router.push({
-                        name: "posts"
+                    if(this.form.title)
+                        formData.append("title", this.form.title);
+                    
+                    if(this.form.body)
+                        formData.append("body", this.form.body);
+                    
+                    if(this.form.file)
+                        formData.append("image", this.form.file);
+
+                    fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${this.$route.params.id}`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        store.commit("addPost", { response });
+                        this.$router.push({
+                            name: "posts"
+                        });
                     });
-                });
+
+                }
+                else {
+                    alert("Debes rellenar al menos un campo!");
+                }
               
             },
 
