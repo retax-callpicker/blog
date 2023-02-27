@@ -36,6 +36,11 @@ const edit = function() {
 
             <b-button type="submit" variant="primary">Editar post</b-button>
             <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
+            <router-link 
+                :to="{name: 'posts'}"
+            >
+                <b-button type="button">Regresar</b-button>
+            </router-link>
 
         </b-form>
 
