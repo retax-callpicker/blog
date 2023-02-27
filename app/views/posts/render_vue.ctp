@@ -27,6 +27,7 @@ $vue_components = array(
 $scripts = array_merge($libraries, $vue_views, $vue_components);
 
 $this->addScript($javascript->link($scripts));
+$this->addScript($html->css("style.css"));
 
 ?>
 

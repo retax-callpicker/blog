@@ -11,7 +11,7 @@ const post = function() {
         <b-card
             v-else
             :title="post.title"
-            img-src="https://picsum.photos/600/100/?image=25"
+            img-src="https://fastly.picsum.photos/id/145/1920/1080.jpg?hmac=745bp388SbDWrZpgXUHM5uRK5D4vdEC6XuPZPp9TvRs"
             img-alt="Image"
             img-top
             tag="article"

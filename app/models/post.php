@@ -10,6 +10,9 @@ class Post extends AppModel {
         ),
         'body' => array(
             'rule' => 'notEmpty'
+        ),
+        'image' => array(
+            'rule' => 'notEmpty'
         )
     );
 

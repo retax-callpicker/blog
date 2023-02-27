@@ -19,27 +19,49 @@ class PostsController extends AppController {
         $response = "";
         $error = false;
         $errors = array();
-        $data = json_decode(file_get_contents('php://input'));
+        //$data = json_decode(file_get_contents('php://input')); <- No aceptamos JSON
 
-        if (!empty($data)) {
-            if ($post = $this->Post->save($data)) {
-                $response = $post;
+        if (!empty($_POST) && !empty($_FILES)) {
+
+            $name = pathinfo($_FILES["image"]["name"]);
+            $name = time() . "." . $name["extension"];
+            $upload_to = realpath("./files") . "/$name";
+
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $upload_to)) {
+
+                $post = array(
+                    "Post" => array(
+                        "title" => $_POST["title"],
+                        "body" => $_POST["body"],
+                        "image" => $name
+                    )
+                );
+
+                if ($post_saved = $this->Post->save($post)) {
+                    $response = $post_saved;
+                }
+                else {
+                    $error = true;
+                    $errors[] = "Data error";
+                    $errors[] = $post_saved;
+                }
+
             }
             else {
                 $error = true;
-                $errors[] = "Data error";
+                $errors[] = "Error subiendo el archivo.";
             }
+
         }
         else {
             $error = true;
-            $errors[] = "Empty data";
+            $errors[] = "You are sending empty data";
         }
 
         return $this->_encodeJsonResponse($response, "", $errors);
 
     }
 
-    // Solo funciona con POST
     function edit($id = null) {
 
         $response = "";

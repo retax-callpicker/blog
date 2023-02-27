@@ -3,7 +3,7 @@ const postsCreate = function() {
     const template = /*html*/`
     <div class="my-5 px-5">
 
-        <b-form @submit="onSubmit" @reset="onReset">
+        <b-form @submit="onSubmit" @reset="onReset" >
 
             <b-form-group id="input-group-1" label="Título" label-for="input-1">
                 <b-form-input
@@ -29,6 +29,14 @@ const postsCreate = function() {
                 ></b-form-textarea>
             </b-form-group>
 
+            <b-form-file
+                v-model="form.file"
+                :state="Boolean(form.file)"
+                placeholder="Elige una imagen o arrástrala aquí"
+                drop-placeholder="Suelta tu imagen aquí"
+            ></b-form-file>
+            <div class="my-3">Archivo seleccionado: {{ form.file ? form.file.name : '' }}</div>
+
             <b-button type="submit" variant="primary">Agregar post</b-button>
             <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
             <router-link 
@@ -48,7 +56,8 @@ const postsCreate = function() {
             return {
                 form: {
                     title: '',
-                    body: ''
+                    body: '',
+                    file: null
                 }
             }
         },
@@ -59,19 +68,22 @@ const postsCreate = function() {
 
                 event.preventDefault();
 
+                const formData = new FormData();
+                formData.append("title", this.form.title);
+                formData.append("body", this.form.body);
+                formData.append("image", this.form.file);
+
                 fetch('https://black.digitum.com.mx/retax/blog/practica/posts', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(this.form)
+                    body: formData
                 })
                 .then(response => response.json())
                 .then(response => {
-                    store.commit("addPost", { response });
+                    console.log(response);
+                    /* store.commit("addPost", { response });
                     this.$router.push({
                         name: "posts"
-                    });
+                    }); */
                 });
               
             },
@@ -82,6 +94,7 @@ const postsCreate = function() {
                 // Reset our form values
                 this.form.title = ''
                 this.form.body = ''
+                this.form.file = null;
 
             }
 
