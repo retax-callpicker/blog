@@ -110,6 +110,50 @@ class PostsController extends AppController {
         $this->_httpRespCode(204);
     }
 
+    function rate() {
+        $response = "";
+        $error = false;
+        $errors = array();
+        $data = json_decode(file_get_contents('php://input'));
+
+        if (!empty($data)) {
+
+            $this->Post->id = $data->post_id;
+            $this->Post->recursive = -1;
+            $post = $this->Post->read();
+
+            $this->Post->saveField('users_who_rated', $post["Post"]["users_who_rated"] + 1);
+            $this->Post->saveField('users_rating', $post["Post"]["users_rating"] + $data->rate);
+
+            $this->_add_post_rated($post["Post"]["id"]);
+
+            $post = $this->Post->read();
+
+            $response = array(
+                "users_who_rated" => $post["Post"]["users_who_rated"],
+                "users_rating" => $post["Post"]["users_rating"]
+            );
+
+        } else {
+            $error = true;
+            $errors[] = "Empty data";
+        }
+
+        return $this->_encodeJsonResponse($response, "", $errors);
+    }
+
+    function _add_post_rated($post_id) {
+
+        $posts_rated = array();
+
+        if (isset($_COOKIE["posts_rated"]) && !empty($_COOKIE["posts_rated"]))
+            $posts_rated = json_decode($_COOKIE["posts_rated"]);
+        
+        array_push($posts_rated, (int) $post_id);
+        setcookie("posts_rated", json_encode($posts_rated), 0, "/retax/blog/practica");
+        
+    }
+
     function _uploadFile($file) {
 
         $name = pathinfo($file["image"]["name"]);

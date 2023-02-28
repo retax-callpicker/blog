@@ -37,10 +37,8 @@ class ComentsController extends AppController {
     }
 
     function _set_user_cookie($user) {
-        if (!isset($_COOKIE["user_token"]) || empty($_COOKIE["user_token"])) {
-            setcookie("user_token", time());
+        if (!isset($_COOKIE["user_token"]) || empty($_COOKIE["user_token"]))
             setcookie("username", $user, 0, "/retax/blog/practica");
-        }
     }
 
 }

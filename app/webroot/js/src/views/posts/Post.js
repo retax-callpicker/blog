@@ -19,6 +19,8 @@ const post = function() {
                 class="mb-2"
             >
 
+                <stars :rating="rating"></stars>
+
                 <b-card-text>{{ post.body }}</b-card-text>
 
                 <router-link 
@@ -28,6 +30,11 @@ const post = function() {
                 </router-link>
 
             </b-card>
+
+            <rate-post
+                :postId="parseInt(post.id)"
+                @updateRating="updateRating"
+            ></rate-post>
 
             <coments
                 :postId="parseInt(post.id)"
@@ -46,6 +53,7 @@ const post = function() {
                 post: null,
                 isLoading: true,
                 comentsList: [],
+                rating: 0
             }
         },
 
@@ -57,7 +65,19 @@ const post = function() {
                     this.post = response.payload.Post;
                     this.comentsList = response.payload.Coment;
                     this.isLoading = false;
+                    this.updateRating(this.post.users_rating, this.post.users_who_rated);
                 });
+
+        },
+
+        methods: {
+
+            updateRating(users_rating, users_who_rated) {
+                if(users_who_rated > 0)
+                    this.rating = users_rating / users_who_rated;
+                else
+                    this.rating = 0;
+            }
 
         },
 
