@@ -6,6 +6,7 @@ class PostsController extends AppController {
     function render_vue() {}
 
     function index() {
+        $this->Post->recursive = -1;
         return $this->_encodeJsonResponse($this->Post->find('all'));
     }
 
@@ -100,6 +101,7 @@ class PostsController extends AppController {
     }
 
     function delete($id = null) {
+        //TODO: Eliminar comentarios al eliminar post
         $this->autoRender = false;
         $this->Post->id = $id;
         $post = $this->Post->read();

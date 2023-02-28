@@ -1,19 +1,19 @@
 <?php
 
-class Post extends AppModel {
+class Coment extends AppModel {
 
-    var $name = 'Post';
+    var $name = 'Coment';
 
-    var $hasMany = "Coment";
+    var $belongsTo = "Post";
 
     var $validate = array(
-        'title' => array(
+        'post_id' => array(
             'rule' => 'notEmpty'
         ),
-        'body' => array(
+        'user' => array(
             'rule' => 'notEmpty'
         ),
-        'image' => array(
+        'coment' => array(
             'rule' => 'notEmpty'
         )
     );

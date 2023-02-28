@@ -8,25 +8,33 @@ const post = function() {
             <span>Cargando...</span>
         </div>
 
-        <b-card
-            v-else
-            :title="post.title"
-            :img-src="'/retax/blog/practica/files/' + post.image"
-            img-alt="Image"
-            img-top
-            tag="article"
-            class="mb-2"
-        >
-
-            <b-card-text>{{ post.body }}</b-card-text>
-
-            <router-link 
-                :to="{name: 'posts'}"
+        <div v-else>
+        
+            <b-card
+                :title="post.title"
+                :img-src="'/retax/blog/practica/files/' + post.image"
+                img-alt="Image"
+                img-top
+                tag="article"
+                class="mb-2"
             >
-                <b-button variant="primary">Regresar</b-button>
-            </router-link>
 
-        </b-card>
+                <b-card-text>{{ post.body }}</b-card-text>
+
+                <router-link 
+                    :to="{name: 'posts'}"
+                >
+                    <b-button variant="primary">Regresar</b-button>
+                </router-link>
+
+            </b-card>
+
+            <coments
+                :postId="parseInt(post.id)"
+                :comentsList="comentsList"
+            ></coments>
+        
+        </div>
 
     </div>
     `;
@@ -36,7 +44,8 @@ const post = function() {
         data() {
             return {
                 post: null,
-                isLoading: true
+                isLoading: true,
+                comentsList: [],
             }
         },
 
@@ -46,6 +55,7 @@ const post = function() {
                 .then(response => response.json())
                 .then(response => {
                     this.post = response.payload.Post;
+                    this.comentsList = response.payload.Coment;
                     this.isLoading = false;
                 });
 

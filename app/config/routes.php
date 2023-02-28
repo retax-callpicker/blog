@@ -32,6 +32,7 @@
  */
 
 	Router::mapResources('posts');
+	Router::mapResources('coments');
 	Router::connect ('/', array('controller'=>'posts', 'action'=>'render_vue'));
 	//Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 /**
