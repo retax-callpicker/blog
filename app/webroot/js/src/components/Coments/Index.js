@@ -33,13 +33,11 @@
         <hr>
 
         <div id="coments-container">
-            <b-card
+            <coment
                 v-for="coment in comentsList"
                 :key="coment.id"
-                :title="coment.user"
-            >
-                <b-card-text>{{ coment.coment }}</b-card-text>
-            </b-card>
+                :coment="coment"
+            ></coment>
         </div>
 
     </b-card>
@@ -55,6 +53,11 @@
                     text: "",
                 }
             }
+        },
+
+        mounted () {
+            const username = this.getCookie("username");
+            this.newComent.user = username;
         },
 
         methods: {
@@ -79,7 +82,6 @@
                 .then(response => response.json())
                 .then(response => {
                     this.comentsList.push(response.payload.Coment);
-                    this.newComent.user = ''
                     this.newComent.text = ''
                 });
 
@@ -92,6 +94,22 @@
                 this.newComent.user = ''
                 this.newComent.text = ''
 
+            },
+
+            getCookie(cname) {
+                let name = cname + "=";
+                //let decodedCookie = decodeURIComponent(document.cookie);
+                let ca = document.cookie.split(';');
+                for(let i = 0; i <ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
             }
 
         },

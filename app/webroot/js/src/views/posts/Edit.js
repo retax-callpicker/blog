@@ -8,47 +8,63 @@ const edit = function() {
             <span>Cargando...</span>
         </div>
 
-        <b-form @submit="onSubmit" @reset="onReset" v-else>
-
-            <b-form-group id="input-group-1" label="Título" label-for="input-1">
-                <b-form-input
-                    id="input-1"
-                    v-model="form.title"
-                    placeholder="Introduce el título del post"
-                ></b-form-input>
-            </b-form-group>
-
-            <b-form-group 
-                id="input-group-2"
-                label="Descripción"
-                label-for="input-2"
-                description="Escribe toda la descripción de tu post."
-            >
-                <b-form-textarea
-                    id="textarea"
-                    v-model="form.body"
-                    placeholder="Escribe tu post"
-                    rows="3"
-                    max-rows="6"
-                ></b-form-textarea>
-            </b-form-group>
-
-            <b-form-file
-                v-model="form.file"
-                placeholder="Elige una imagen o arrástrala aquí"
-                drop-placeholder="Suelta tu imagen aquí"
-            ></b-form-file>
-            <div class="my-3">Archivo seleccionado: {{ form.file ? form.file.name : '' }}</div>
-
-            <b-button type="submit" variant="primary">Editar post</b-button>
-            <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
-            <router-link 
-                :to="{name: 'posts'}"
-            >
-                <b-button type="button">Regresar</b-button>
-            </router-link>
-
-        </b-form>
+        <div v-else>
+            <h1 class="mb-4">Edita este post:</h1>
+            <b-form @submit="onSubmit" @reset="onReset">
+            
+                <b-form-group id="input-group-1" label="Título" label-for="input-1">
+                    <b-form-input
+                        id="input-1"
+                        v-model="form.title"
+                        placeholder="Introduce el título del post"
+                    ></b-form-input>
+                </b-form-group>
+            
+                <b-form-group 
+                    id="input-group-2"
+                    label="Descripción"
+                    label-for="input-2"
+                    description="Escribe toda la descripción de tu post."
+                >
+                    <b-form-textarea
+                        id="textarea"
+                        v-model="form.body"
+                        placeholder="Escribe tu post"
+                        rows="3"
+                        max-rows="6"
+                    ></b-form-textarea>
+                </b-form-group>
+            
+                <b-form-file
+                    v-model="form.file"
+                    placeholder="Elige una imagen o arrástrala aquí"
+                    drop-placeholder="Suelta tu imagen aquí"
+                ></b-form-file>
+                <div class="my-3">Archivo seleccionado: {{ form.file ? form.file.name : '' }}</div>
+            
+                <b-button type="submit" variant="primary">Editar post</b-button>
+                <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
+                <router-link 
+                    :to="{name: 'posts'}"
+                >
+                    <b-button type="button">Regresar</b-button>
+                </router-link>
+            
+            </b-form>
+            
+            <hr>
+            
+            <h3 class="mb-4">Administra los comentarios de este post:</h3>
+            <div id="coments-container">
+                <coment
+                    v-for="coment in comentsList"
+                    :key="coment.id"
+                    :coment="coment"
+                    :showDelete="Boolean(true)"
+                    @deleteComent="deleteComent"
+                ></coment>
+            </div>
+        </div>
 
     </div>
     `;
@@ -58,6 +74,7 @@ const edit = function() {
         data() {
             return {
                 isLoading: true,
+                comentsList: [],
                 form: {
                     title: '',
                     body: '',
@@ -74,6 +91,7 @@ const edit = function() {
                     this.form.title = response.payload.Post.title;
                     this.form.body = response.payload.Post.body;
                     this.isLoading = false;
+                    this.comentsList = response.payload.Coment;
                 });
 
         },
@@ -124,6 +142,13 @@ const edit = function() {
                 this.form.body = ''
                 this.form.file = null
 
+            },
+
+            deleteComent(id) {
+                this.comentsList.forEach((coment, index) => {
+                    if(id == coment.id)
+                        this.comentsList.splice(index, 1);
+                });
             }
 
         },

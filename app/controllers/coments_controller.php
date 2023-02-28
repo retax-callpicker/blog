@@ -14,9 +14,9 @@ class ComentsController extends AppController {
         $errors = array();
         $data = json_decode(file_get_contents('php://input'));
 
-
         if (!empty($data)) {
             if ($coment = $this->Coment->save($data)) {
+                $this->_set_user_cookie($data->user);
                 $response = $coment;
             } else {
                 $error = true;
@@ -28,6 +28,19 @@ class ComentsController extends AppController {
         }
         
         return $this->_encodeJsonResponse($response, "", $errors);
+    }
+
+    function delete($id = null) {
+        $this->autoRender = false;
+        $this->Coment->del($id);
+        $this->_httpRespCode(204);
+    }
+
+    function _set_user_cookie($user) {
+        if (!isset($_COOKIE["user_token"]) || empty($_COOKIE["user_token"])) {
+            setcookie("user_token", time());
+            setcookie("username", $user, 0, "/retax/blog/practica");
+        }
     }
 
 }

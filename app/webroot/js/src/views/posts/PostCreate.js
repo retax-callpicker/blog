@@ -3,6 +3,8 @@ const postsCreate = function() {
     const template = /*html*/`
     <div class="my-5 px-5">
 
+        <h1 class="mb-4">Crea un nuevo post:</h1>
+
         <b-form @submit="onSubmit" @reset="onReset" >
 
             <b-form-group id="input-group-1" label="Título" label-for="input-1">

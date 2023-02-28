@@ -22,7 +22,8 @@ $vue_views = array(
 $vue_components = array(
     "src/components/FooterBar/Index.js",
     "src/components/HeaderBar/Index.js",
-    "src/components/Coments/Index.js"
+    "src/components/Coments/Index.js",
+    "src/components/Coments/Coment.js"
 );
 
 $scripts = array_merge($libraries, $vue_views, $vue_components);
