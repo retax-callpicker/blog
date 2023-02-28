@@ -1,7 +1,7 @@
 const postsCreate = function() {
 
     const template = /*html*/`
-    <div class="my-5 px-5">
+    <div class="my-5 px-5 max-container">
 
         <h1 class="mb-4">Crea un nuevo post:</h1>
 

@@ -8,7 +8,7 @@ const edit = function() {
             <span>Cargando...</span>
         </div>
 
-        <div v-else>
+        <div class="max-container" v-else>
             <h1 class="mb-4">Edita este post:</h1>
             <b-form @submit="onSubmit" @reset="onReset">
             
@@ -55,7 +55,7 @@ const edit = function() {
             <hr>
             
             <h3 class="mb-4">Administra los comentarios de este post:</h3>
-            <div id="coments-container">
+            <div id="coments-container" v-if="comentsList.length > 0">
                 <coment
                     v-for="coment in comentsList"
                     :key="coment.id"
@@ -64,6 +64,7 @@ const edit = function() {
                     @deleteComent="deleteComent"
                 ></coment>
             </div>
+            <b-alert v-else show>No hay comentarios en este post.</b-alert>
         </div>
 
     </div>

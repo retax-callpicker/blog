@@ -8,7 +8,7 @@ const post = function() {
             <span>Cargando...</span>
         </div>
 
-        <div v-else>
+        <div class="max-container" v-else>
         
             <b-card
                 :title="post.title"

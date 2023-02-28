@@ -31,8 +31,14 @@ $vue_components = array(
 
 $scripts = array_merge($libraries, $vue_views, $vue_components);
 
+$styles = array(
+    "style.css",
+    "PostList/index.css",
+    "PostList/media.css",
+);
+
 $this->addScript($javascript->link($scripts));
-$this->addScript($html->css("style.css"));
+$this->addScript($html->css($styles));
 
 ?>
 

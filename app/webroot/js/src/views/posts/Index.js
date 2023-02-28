@@ -22,63 +22,75 @@ const posts = function() {
 
         </b-modal>
 
-        <router-link 
-            :to="{name: 'postCreate'}"
-        >
-            <b-button>Agregar Post</b-button>
-        </router-link>
+        <main>
 
-        <div id="table-container">
-            <b-table :style="{textAlign: 'center'}" :items="table" :busy="isBusy" class="mt-3" outlined>
+            <section class="px-4 pt-5 my-5 text-center border-bottom">
 
-                <template #cell(title)="data">
-                    <router-link 
+                <h1 class="display-4 fw-bold">🖋 Blog It!</h1>
+
+                <div class="col-lg-6 mx-auto">
+
+                    <p class="lead mb-4">Este blog fue desarrollado con Vue 2. Implementa tecnologías como <b>Vuex</b>, <b>Vue Router</b> y <b>Bootstrap Vue</b> para funcionar. Esta aplicación es renderizada por un método de CakePHP y hace uso de Hash Routes para evitar el problema de configuración de NGINX. Puedes consultar el código <a href="https://github.com/retax-callpicker/blog/tree/vue-cdn" target="_blank">aquí.</a></p>
+
+                    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                        <router-link 
+                            :to="{name: 'postCreate'}"
+                        >
+                            <b-button class="btn btn-lg px-4 me-sm-3" variant="primary">¡Agrega tu post!</b-button>
+                        </router-link>
+                    </div>
+
+                </div>
+
+            </section>
+        
+            <section id="blogs-container" class="max-container">
+            
+                <b-card
+                    v-for="post in posts"
+                    :key="post.Post.id"
+                    :title="post.Post.title"
+                    :img-src="'/retax/blog/practica/files/' + post.Post.image"
+                    img-alt="Image"
+                    img-top
+                    tag="article"
+                    class="mb-2"
+                >
+
+                    <b-card-text>{{ post.Post.body }}</b-card-text>
+
+                    <router-link
                         :to="{
                             name: 'post',
                             params: {
-                                id: data.value.id
-                            }
-                        }"
-                    >{{ data.value.title }}</router-link>
-                </template>
-
-                <template #cell(image)="data">
-                    <div 
-                        class="mx-auto"
-                        :style="{
-                            width: '300px'
-                        }"
-                    >
-                        <b-img thumbnail :src="'/retax/blog/practica/files/' + data.value" fluid alt="Imagen"></b-img>
-                    </div>
-                </template>
-
-                <template #cell(actions)="data">
-
-                    <router-link 
-                        :to="{
-                            name: 'editPost',
-                            params: {
-                                id: data.value.id
+                                id: post.Post.id
                             }
                         }"
                     >
-                        <b-button type="button" variant="primary">Editar post</b-button>
+                        Leer post completo...
                     </router-link>
 
-                    <b-button type="button" variant="danger" @click="deletePost(data.value)">Eliminar post</b-button>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
 
-                </template>
+                        <router-link 
+                            :to="{
+                                name: 'editPost',
+                                params: {
+                                    id: post.Post.id
+                                }
+                            }"
+                        >
+                            <b-icon icon="pencil" variant="primary"></b-icon>
+                        </router-link>
 
-                <template #table-busy>
-                    <div class="text-center text-danger my-2">
-                    <b-spinner class="align-middle"></b-spinner>
-                    <strong>Loading...</strong>
+                        <b-icon icon="trash" variant="danger" @click="deletePost(post.Post.id, post.Post.title)"></b-icon>
+
                     </div>
-                </template>
-
-            </b-table>
-        </div>
+                </b-card>
+            
+            </section>
+        
+        </main>
 
     </div>
     `;
@@ -100,14 +112,17 @@ const posts = function() {
             fetch('https://black.digitum.com.mx/retax/blog/practica/posts')
                 .then(response => response.json())
                 .then(response => {
-                    store.commit("setInfo", { response });
+                    store.commit("setPosts", {
+                        posts: response.payload
+                    });
                 })
         },
 
         methods: {
 
-            deletePost(data) {
-                this.deletion = data;
+            deletePost(id, title) {
+                console.log(id, title);
+                this.deletion = { id, title };
                 this.$bvModal.show("confirm");
             },
 
@@ -149,34 +164,7 @@ const posts = function() {
         },
 
         computed: {
-            ...Vuex.mapState(["info"])
-        },
-
-        watch: {
-
-            info: {
-                handler() {
-                    this.table = [];
-                    this.info.payload.forEach(post => {
-                        this.table.push({
-                            title: {
-                                title: post.Post.title,
-                                id: post.Post.id,
-                            },
-                            body: post.Post.body,
-                            image: post.Post.image,
-                            actions: {
-                                id: post.Post.id,
-                                title: post.Post.title,
-                            }
-                        });
-                    });
-    
-                    this.isBusy = false;
-                },
-                deep: true
-            }
-        
+            ...Vuex.mapState(["posts"])
         },
 
         template

@@ -32,13 +32,15 @@
         
         <hr>
 
-        <div id="coments-container">
+        <div id="coments-container" v-if="comentsList.length > 0">
             <coment
                 v-for="coment in comentsList"
                 :key="coment.id"
                 :coment="coment"
             ></coment>
         </div>
+
+        <b-alert v-else show>Aún no hay comentarios en este post. ¡Sé el primero en comentar!</b-alert>
 
     </b-card>
     `;
