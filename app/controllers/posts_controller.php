@@ -3,7 +3,9 @@ class PostsController extends AppController {
 
     var $name = 'Posts';
 
-    function render_vue() {}
+    function render_vue() {
+        $this->pageTitle = "Retax Blog | Callpicker";
+    }
 
     function index() {
         $this->Post->recursive = -1;

@@ -40,4 +40,19 @@
  *
  */
 //EOF
+
+function get_env($env_var_searched) {
+
+    $env_vars = file_get_contents("../../.env");
+    $env = explode("\n", $env_vars);
+    $env_formatted = array();
+
+    foreach ($env as $env_var) {
+        $env_var = explode("=", $env_var);
+        $env_formatted[$env_var[0]] = $env_var[1];
+    }
+
+    return $env_formatted[$env_var_searched];
+
+}
 ?>

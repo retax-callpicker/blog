@@ -1,10 +1,14 @@
 <?php 
 
+$app_env = get_env("APP_MODE");
+$vue = $app_env == "develop" ? "vuejs/2.6.12/vue.js" : "vuejs/2.6.12/vue.min.js";
+$vuex = $app_env == "develop" ? "vuejs/vuex/vuex.js" : "vuejs/vuex/vuex.min.js";
+
 $libraries = array(
     "vuejs/polyfill.min.js",
-    "vuejs/2.6.12/vue.js",
+    $vue,
     "vuejs/vue-router.js",
-    "vuejs/vuex/vuex.js",
+    $vuex,
     "bootstrap-vue/v2.21.0/bootstrap-vue.min.js",
     "https://unpkg.com/bootstrap-vue@2.23.1/dist/bootstrap-vue-icons.min.js"
 );
