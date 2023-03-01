@@ -42,7 +42,3 @@
 
     });
 }())
-
-// <p class="my-4">Estás a punto de eliminar el post <b>{{ deletion.title }}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?</p>
-
-// <p class="my-4">Estás a punto de eliminar el post <b>{{ deletion.title }}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?</p>

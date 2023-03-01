@@ -101,12 +101,12 @@ class PostsController extends AppController {
     }
 
     function delete($id = null) {
-        //TODO: Eliminar comentarios al eliminar post
         $this->autoRender = false;
         $this->Post->id = $id;
         $post = $this->Post->read();
         $this->_deleteFile($post["Post"]["image"]);
-        $this->Post->del($id);
+        $this->_delete_post_comments($post["Coment"]);
+        $this->Post->del($id, true);
         $this->_httpRespCode(204);
     }
 
@@ -140,6 +140,16 @@ class PostsController extends AppController {
         }
 
         return $this->_encodeJsonResponse($response, "", $errors);
+    }
+
+    function _delete_post_comments($coments) {
+
+        App::import('model', 'Coment');
+        $Coment = new Coment();
+
+        foreach ($coments as $coment)
+            $Coment->del($coment["id"]);
+
     }
 
     function _add_post_rated($post_id) {

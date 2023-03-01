@@ -14,6 +14,10 @@ $vuex_modules = array(
     "src/store/modules/confirm.js",
 );
 
+$vue_mixins = array(
+    "src/mixins/cookies.js"
+);
+
 $vue_views = array(
     "src/layouts/MainLayout.js",
     "src/views/posts/Index.js",
@@ -35,7 +39,7 @@ $vue_components = array(
     "src/components/Confirm/Index.js",
 );
 
-$scripts = array_merge($libraries, $vuex_modules, $vue_views, $vue_components);
+$scripts = array_merge($libraries, $vuex_modules, $vue_mixins, $vue_views, $vue_components);
 
 $styles = array(
     "style.css",

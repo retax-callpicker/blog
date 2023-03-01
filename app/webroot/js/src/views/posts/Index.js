@@ -91,7 +91,6 @@ const posts = function() {
         methods: {
 
             deletePost(id, title) {
-                // TODO: Ver si se puede manejar con promesas, faltaría ver si los mutations admiten returns
                 store.commit("confirm/showConfirm", {
                     text: `Estás a punto de eliminar el post <b>${title}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?`,
                     confirmed: () => {
