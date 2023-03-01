@@ -1,6 +1,6 @@
 (function() {
     const template = /*html*/`
-    <b-modal id="confirm" hide-footer title="¿Confirmar eliminación?" v-model="isOpened">
+    <b-modal id="confirm" ref="confirm" hide-footer title="¿Confirmar eliminación?">
         <p class="my-4" v-html="modalText"></p>
 
         <b-button 
@@ -35,7 +35,7 @@
         },
         
         computed: {
-            ...Vuex.mapState("confirm", ["isOpened", "modalText"])
+            ...Vuex.mapState("confirm", ["modalText"])
         },
         
         template

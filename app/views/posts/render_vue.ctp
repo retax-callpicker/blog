@@ -15,7 +15,8 @@ $vuex_modules = array(
 );
 
 $vue_mixins = array(
-    "src/mixins/cookies.js"
+    "src/mixins/cookies.js",
+    "src/mixins/confirm.js",
 );
 
 $vue_views = array(

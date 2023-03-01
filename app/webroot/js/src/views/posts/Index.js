@@ -64,7 +64,7 @@ const posts = function() {
                             <b-icon icon="pencil" variant="primary"></b-icon>
                         </router-link>
 
-                        <b-icon icon="trash" variant="danger" @click="deletePost(post.Post.id, post.Post.title)"></b-icon>
+                        <b-icon icon="trash" variant="danger" @click="deletePost(post.Post.id, post.Post.title)" style="cursor: pointer;"></b-icon>
 
                     </div>
                 </b-card>
@@ -91,9 +91,8 @@ const posts = function() {
         methods: {
 
             deletePost(id, title) {
-                store.commit("confirm/showConfirm", {
-                    text: `Estás a punto de eliminar el post <b>${title}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?`,
-                    confirmed: () => {
+                this.askConfirm(`Estás a punto de eliminar el post <b>${title}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?`)
+                    .then(() => {
                         fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${id}`, {
                             method: 'DELETE'
                         })
@@ -101,11 +100,9 @@ const posts = function() {
                             if (response.status === 204)
                                 store.commit("post/deletePost", id);
                             else
-                                alert("Error dels ervidor :(");
+                                alert("Error del servidor :(");
                         });
-                    }
-                });
-
+                    }).catch(() => null);
             }
 
         },
@@ -113,6 +110,8 @@ const posts = function() {
         computed: {
             ...Vuex.mapState("post", ["posts"])
         },
+
+        mixins: [confirmMixin],
 
         template
 

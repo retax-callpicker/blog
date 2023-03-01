@@ -11,26 +11,18 @@
         methods: {
 
             deleteComent(id, user) {
-
-                store.commit("confirm/showConfirm", {
-                    text: `Estás a punto de eliminar el comentario de <b>${user}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?`,
-                    confirmed: () => {
+                this.askConfirm(`Estás a punto de eliminar el comentario de <b>${user}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?`)
+                    .then(() => {
                         fetch(`https://black.digitum.com.mx/retax/blog/practica/coments/${id}`, {
                             method: 'DELETE'
                         })
                         .then(response => {
-
-                            if (response.status === 204) {
+                            if (response.status === 204)
                                 this.$emit("deleteComent", id);
-                            }
-                            else {
-                                alert("Error dels ervidor :(");
-                            }
-
+                            else
+                                alert("Error del servidor :(");
                         });
-                    }
-                });
-                
+                    }).catch(() => null);
             }
 
         },
@@ -46,6 +38,8 @@
                 required: false
             }
         },
+
+        mixins: [confirmMixin],
 
         template
 
