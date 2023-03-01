@@ -85,7 +85,7 @@ const postsCreate = function() {
                     })
                     .then(response => response.json())
                     .then(response => {
-                        store.commit("addPost", { response });
+                        store.commit("post/addPost", { response });
                         this.$router.push({
                             name: "posts"
                         });

@@ -9,6 +9,11 @@ $libraries = array(
     "https://unpkg.com/bootstrap-vue@2.23.1/dist/bootstrap-vue-icons.min.js"
 );
 
+$vuex_modules = array(
+    "src/store/modules/posts.js",
+    "src/store/modules/confirm.js",
+);
+
 $vue_views = array(
     "src/layouts/MainLayout.js",
     "src/views/posts/Index.js",
@@ -27,9 +32,10 @@ $vue_components = array(
     "src/components/Coments/Coment.js",
     "src/components/RatePost/Index.js",
     "src/components/RatePost/Stars.js",
+    "src/components/Confirm/Index.js",
 );
 
-$scripts = array_merge($libraries, $vue_views, $vue_components);
+$scripts = array_merge($libraries, $vuex_modules, $vue_views, $vue_components);
 
 $styles = array(
     "style.css",

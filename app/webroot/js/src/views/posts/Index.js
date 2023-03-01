@@ -3,25 +3,6 @@ const posts = function() {
     const template = /*html*/`
     <div class="my-5 px-5">
 
-        <b-modal id="confirm" hide-footer title="¿Confirmar eliminación?">
-            <p class="my-4">Estás a punto de eliminar el post <b>{{ deletion.title }}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?</p>
-
-            <b-button 
-                class="mt-3" 
-                type="button" 
-                variant="primary"
-                @click="hideModal"
-            >Cancelar</b-button>
-
-            <b-button 
-                class="mt-3" 
-                type="button" 
-                variant="danger"
-                @click="confirmDelete"
-            >Eliminar</b-button>
-
-        </b-modal>
-
         <main>
 
             <section class="px-4 pt-5 my-5 text-center border-bottom">
@@ -97,22 +78,11 @@ const posts = function() {
 
     return Vue.component('posts', {
 
-        data() {
-            return {
-                deletion: {
-                    title: "",
-                    id: null
-                },
-                isBusy: true,
-                table: []
-            }
-        },
-
         mounted () {
             fetch('https://black.digitum.com.mx/retax/blog/practica/posts')
                 .then(response => response.json())
                 .then(response => {
-                    store.commit("setPosts", {
+                    store.commit("post/setPosts", {
                         posts: response.payload
                     });
                 })
@@ -121,42 +91,20 @@ const posts = function() {
         methods: {
 
             deletePost(id, title) {
-                console.log(id, title);
-                this.deletion = { id, title };
-                this.$bvModal.show("confirm");
-            },
-
-            hideModal() {
-                this.deletion = {
-                    title: "",
-                    id: null
-                };
-
-                this.$bvModal.hide("confirm");
-            },
-
-            confirmDelete() {
-                
-                this.$bvModal.hide("confirm");
-                const id = this.deletion.id;
-
-                fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${id}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-
-                    if (response.status === 204) {
-                        store.commit("deletePost", id);
+                // TODO: Ver si se puede manejar con promesas, faltaría ver si los mutations admiten returns
+                store.commit("confirm/showConfirm", {
+                    text: `Estás a punto de eliminar el post <b>${title}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?`,
+                    confirmed: () => {
+                        fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${id}`, {
+                            method: 'DELETE'
+                        })
+                        .then(response => {
+                            if (response.status === 204)
+                                store.commit("post/deletePost", id);
+                            else
+                                alert("Error dels ervidor :(");
+                        });
                     }
-                    else {
-                        alert("Error dels ervidor :(");
-                    }
-
-                    this.deletion = {
-                        title: "",
-                        id: null
-                    };
-
                 });
 
             }
@@ -164,7 +112,7 @@ const posts = function() {
         },
 
         computed: {
-            ...Vuex.mapState(["posts"])
+            ...Vuex.mapState("post", ["posts"])
         },
 
         template

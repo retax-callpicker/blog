@@ -1,0 +1,48 @@
+(function() {
+    const template = /*html*/`
+    <b-modal id="confirm" hide-footer title="¿Confirmar eliminación?" v-model="isOpened">
+        <p class="my-4" v-html="modalText"></p>
+
+        <b-button 
+            class="mt-3" 
+            type="button" 
+            variant="primary"
+            @click="hideModal"
+        >Cancelar</b-button>
+
+        <b-button 
+            class="mt-3" 
+            type="button" 
+            variant="danger"
+            @click="confirm"
+        >Eliminar</b-button>
+
+    </b-modal>
+    `;
+
+    Vue.component('confirm', {
+
+        methods: {
+
+            hideModal() {
+                store.commit("confirm/resetConfirm");
+            },
+        
+            confirm() {
+                store.commit("confirm/clickConfirm");
+            }
+            
+        },
+        
+        computed: {
+            ...Vuex.mapState("confirm", ["isOpened", "modalText"])
+        },
+        
+        template
+
+    });
+}())
+
+// <p class="my-4">Estás a punto de eliminar el post <b>{{ deletion.title }}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?</p>
+
+// <p class="my-4">Estás a punto de eliminar el post <b>{{ deletion.title }}</b>. Esta acción no se puede deshacer. ¿Realmente quieres eliminarlo?</p>
