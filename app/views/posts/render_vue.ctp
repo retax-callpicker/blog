@@ -24,6 +24,7 @@ $vue_mixins = array(
     "src/mixins/confirm.js",
     "src/mixins/messages.js",
     "src/mixins/strings.js",
+    "src/mixins/images.js",
 );
 
 $vue_views = array(

@@ -19,7 +19,10 @@ const post = function() {
                 class="mb-2"
             >
 
-                <stars :rating="rating"></stars>
+                <stars 
+                    :users_rating="parseInt(post.users_rating)"
+                    :users_who_rated="parseInt(post.users_who_rated)"
+                ></stars>
 
                 <b-card-text>{{ post.body }}</b-card-text>
 
@@ -52,8 +55,7 @@ const post = function() {
             return {
                 post: null,
                 isLoading: true,
-                comentsList: [],
-                rating: 0
+                comentsList: []
             }
         },
 
@@ -72,7 +74,6 @@ const post = function() {
                         this.post = response.payload.Post;
                         this.comentsList = response.payload.Coment;
                         this.isLoading = false;
-                        this.updateRating(this.post.users_rating, this.post.users_who_rated);
                     }
 
                 });
@@ -82,10 +83,8 @@ const post = function() {
         methods: {
 
             updateRating(users_rating, users_who_rated) {
-                if(users_who_rated > 0)
-                    this.rating = users_rating / users_who_rated;
-                else
-                    this.rating = 0;
+                this.post.users_rating = users_rating;
+                this.post.users_who_rated = users_who_rated;
             }
 
         },

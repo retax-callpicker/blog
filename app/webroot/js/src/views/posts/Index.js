@@ -38,6 +38,11 @@ const posts = function() {
                     class="mb-2"
                 >
 
+                    <stars 
+                        :users_rating="parseInt(post.Post.users_rating)"
+                        :users_who_rated="parseInt(post.Post.users_who_rated)"
+                    ></stars>
+
                     <b-card-text class="text-truncate">{{ post.Post.body }}</b-card-text>
 
                     <router-link

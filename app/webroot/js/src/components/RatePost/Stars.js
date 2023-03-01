@@ -31,24 +31,41 @@
         },
 
         mounted() {
-                this.starsOn = Math.round(this.rating);
+            this.calculateRating();
+        },
+
+        methods: {
+
+            calculateRating() {
+
+                let rating = 0;
+
+                if(this.users_who_rated > 0)
+                    rating = this.users_rating / this.users_who_rated;
+
+                this.starsOn = Math.round(rating);
                 this.starsOff = 5 - this.starsOn;
+            }
+
         },
 
         watch: {
 
-            rating(newValue) {
-                this.starsOn = Math.round(newValue);
-                this.starsOff = 5 - this.starsOn;
+            users_rating() {
+                this.calculateRating();
             }
 
         },
 
         props: {
-            rating: {
+            users_rating: {
                 type: Number,
                 required: true
-            }
+            },
+            users_who_rated: {
+                type: Number,
+                required: true
+            },
         },
 
         template
