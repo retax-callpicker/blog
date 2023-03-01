@@ -93,7 +93,7 @@ const postsCreate = function() {
 
                 }
                 else {
-                    alert("Completa todos los campos!");
+                    this.showMessage("¡Un momento!", "¡Completa todos los campos!", 3);
                 }
               
             },
@@ -109,6 +109,8 @@ const postsCreate = function() {
             }
 
         },
+
+        mixins: [messagesMixin],
 
         template
 

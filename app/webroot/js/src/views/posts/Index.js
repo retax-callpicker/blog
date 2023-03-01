@@ -100,7 +100,7 @@ const posts = function() {
                             if (response.status === 204)
                                 store.commit("post/deletePost", id);
                             else
-                                alert("Error del servidor :(");
+                                this.showMessage("Error", "Error del servidor :(", 3);
                         });
                     }).catch(() => null);
             }
@@ -111,7 +111,7 @@ const posts = function() {
             ...Vuex.mapState("post", ["posts"])
         },
 
-        mixins: [confirmMixin],
+        mixins: [confirmMixin, messagesMixin],
 
         template
 

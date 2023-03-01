@@ -90,15 +90,17 @@ const edit = function() {
                 .then(response => response.json())
                 .then(response => {
 
-                    if (!response.payload)
+                    if (!response.payload) {
                         this.$router.push({
                             name: 'NotFound'
                         });
-
-                    this.form.title = response.payload.Post.title;
-                    this.form.body = response.payload.Post.body;
-                    this.isLoading = false;
-                    this.comentsList = response.payload.Coment;
+                    }
+                    else {
+                        this.form.title = response.payload.Post.title;
+                        this.form.body = response.payload.Post.body;
+                        this.isLoading = false;
+                        this.comentsList = response.payload.Coment;
+                    }
                     
                 });
 
@@ -137,7 +139,7 @@ const edit = function() {
 
                 }
                 else {
-                    alert("Debes rellenar al menos un campo!");
+                    this.showMessage("¡Un momento!", "¡Debes rellenar al menos un campo!", 3);
                 }
               
             },
@@ -160,6 +162,8 @@ const edit = function() {
             }
 
         },
+
+        mixins: [messagesMixin],
 
         template
 

@@ -56,7 +56,7 @@
 
                 }
                 else {
-                    alert("Debes elegir una calificación!");
+                    this.showMessage("¡Un momento!", "¡Debes elegir una calificación!", 3);
                 }
 
             },
@@ -81,7 +81,7 @@
             }
         },
 
-        mixins: [cookiesMixin],
+        mixins: [cookiesMixin, messagesMixin],
 
         template
 

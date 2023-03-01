@@ -63,15 +63,17 @@ const post = function() {
                 .then(response => response.json())
                 .then(response => {
 
-                    if (!response.payload)
+                    if (!response.payload) {
                         this.$router.push({
                             name: 'NotFound'
                         });
-                        
-                    this.post = response.payload.Post;
-                    this.comentsList = response.payload.Coment;
-                    this.isLoading = false;
-                    this.updateRating(this.post.users_rating, this.post.users_who_rated);
+                    }
+                    else {
+                        this.post = response.payload.Post;
+                        this.comentsList = response.payload.Coment;
+                        this.isLoading = false;
+                        this.updateRating(this.post.users_rating, this.post.users_who_rated);
+                    }
 
                 });
 

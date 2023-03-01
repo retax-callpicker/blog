@@ -12,11 +12,13 @@ $libraries = array(
 $vuex_modules = array(
     "src/store/modules/posts.js",
     "src/store/modules/confirm.js",
+    "src/store/modules/messages.js",
 );
 
 $vue_mixins = array(
     "src/mixins/cookies.js",
     "src/mixins/confirm.js",
+    "src/mixins/messages.js",
 );
 
 $vue_views = array(
@@ -39,6 +41,7 @@ $vue_components = array(
     "src/components/RatePost/Index.js",
     "src/components/RatePost/Stars.js",
     "src/components/Confirm/Index.js",
+    "src/components/Messages/Index.js",
 );
 
 $scripts = array_merge($libraries, $vuex_modules, $vue_mixins, $vue_views, $vue_components);

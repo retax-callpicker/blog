@@ -20,7 +20,7 @@
                             if (response.status === 204)
                                 this.$emit("deleteComent", id);
                             else
-                                alert("Error del servidor :(");
+                                this.showMessage("Error", "Error del servidor :(", 3);
                         });
                     }).catch(() => null);
             }
@@ -39,7 +39,7 @@
             }
         },
 
-        mixins: [confirmMixin],
+        mixins: [confirmMixin, messagesMixin],
 
         template
 
