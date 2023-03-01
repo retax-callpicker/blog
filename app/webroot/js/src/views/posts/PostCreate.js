@@ -12,8 +12,10 @@ const postsCreate = function() {
                     id="input-1"
                     v-model="form.title"
                     placeholder="Introduce el título del post"
+                    @keydown="validateLength"
                     required
                 ></b-form-input>
+                <b-form-text>Máximo 50 caracteres.</b-form-text>
             </b-form-group>
 
             <b-form-group 
@@ -75,7 +77,7 @@ const postsCreate = function() {
                 if (this.form.title && this.form.body && this.form.file) {
 
                     const formData = new FormData();
-                    formData.append("title", this.form.title);
+                    formData.append("title", this.trimTitle(this.form.title));
                     formData.append("body", this.form.body);
                     formData.append("image", this.form.file);
     
@@ -108,7 +110,7 @@ const postsCreate = function() {
 
         },
 
-        mixins: [messagesMixin],
+        mixins: [messagesMixin, stringsMixin],
 
         template
 

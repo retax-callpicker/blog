@@ -11,7 +11,7 @@ const posts = function() {
 
                 <div class="col-lg-6 mx-auto">
 
-                    <p class="lead mb-4">Este blog fue desarrollado con Vue 2. Implementa tecnologías como <b>Vuex</b>, <b>Vue Router</b> y <b>Bootstrap Vue</b> para funcionar. Esta aplicación es renderizada por un método de CakePHP y hace uso de Hash Routes para evitar el problema de configuración de NGINX. Puedes consultar el código <a href="https://github.com/retax-callpicker/blog/tree/vue-cdn" target="_blank">aquí.</a></p>
+                    <p class="lead mb-4">Este blog fue desarrollado con Vue 2. Implementa tecnologías como <b>Vuex</b>, <b>Vue Router</b> y <b>Bootstrap Vue</b> para funcionar. Esta aplicación es renderizada por un método de CakePHP y hace uso de Hash Routes para evitar el problema de configuración de NGINX. Puedes consultar el código <a href="https://github.com/retax-callpicker/blog" target="_blank">aquí.</a></p>
 
                     <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
                         <router-link 
@@ -38,7 +38,7 @@ const posts = function() {
                     class="mb-2"
                 >
 
-                    <b-card-text>{{ post.Post.body }}</b-card-text>
+                    <b-card-text class="text-truncate">{{ post.Post.body }}</b-card-text>
 
                     <router-link
                         :to="{

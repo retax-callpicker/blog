@@ -17,7 +17,9 @@ const edit = function() {
                         id="input-1"
                         v-model="form.title"
                         placeholder="Introduce el título del post"
+                        @keydown="validateLength"
                     ></b-form-input>
+                    <b-form-text>Máximo 50 caracteres.</b-form-text>
                 </b-form-group>
             
                 <b-form-group 
@@ -117,7 +119,7 @@ const edit = function() {
                 if (this.form.title || this.form.body || this.form.file) {
 
                     if(this.form.title)
-                        formData.append("title", this.form.title);
+                        formData.append("title", this.trimTitle(this.form.title));
                     
                     if(this.form.body)
                         formData.append("body", this.form.body);
@@ -161,7 +163,7 @@ const edit = function() {
 
         },
 
-        mixins: [messagesMixin],
+        mixins: [messagesMixin, stringsMixin],
 
         template
 
