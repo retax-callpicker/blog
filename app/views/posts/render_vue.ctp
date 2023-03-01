@@ -25,6 +25,7 @@ $vue_views = array(
     "src/views/posts/PostCreate.js",
     "src/views/posts/Post.js",
     "src/views/posts/Edit.js",
+    "src/views/404.js",
     "src/App.js",
     "src/router/index.js",
     "src/store/index.js",

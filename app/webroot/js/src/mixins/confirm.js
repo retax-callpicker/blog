@@ -6,7 +6,7 @@ const confirmMixin = {
             return new Promise((resolve, reject) => {
                 store.commit("confirm/showConfirm", {
                     text: message,
-                    vm: this,
+                    bvModal: this.$bvModal,
                     confirmed: resolve,
                     canceled: reject
                 });

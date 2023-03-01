@@ -18,6 +18,15 @@ const routes = [
         path: '/posts/edit/:id',
         name: 'editPost',
         component: edit
+    },
+    {
+        path: '/not-found',
+        name: 'NotFound',
+        component: notFound
+    },
+    {
+        path: '*',
+        component: notFound
     }
 ]
   

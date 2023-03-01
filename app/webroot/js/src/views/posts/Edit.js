@@ -89,10 +89,17 @@ const edit = function() {
             fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${this.$route.params.id}`)
                 .then(response => response.json())
                 .then(response => {
+
+                    if (!response.payload)
+                        this.$router.push({
+                            name: 'NotFound'
+                        });
+
                     this.form.title = response.payload.Post.title;
                     this.form.body = response.payload.Post.body;
                     this.isLoading = false;
                     this.comentsList = response.payload.Coment;
+                    
                 });
 
         },
