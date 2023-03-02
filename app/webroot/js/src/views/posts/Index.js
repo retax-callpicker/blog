@@ -43,7 +43,7 @@ const posts = function() {
                         :users_who_rated="parseInt(post.Post.users_who_rated)"
                     ></stars>
 
-                    <b-card-text class="text-truncate">{{ post.Post.body }}</b-card-text>
+                    <b-card-text>{{ post.Post.body }}</b-card-text>
 
                     <router-link
                         :to="{

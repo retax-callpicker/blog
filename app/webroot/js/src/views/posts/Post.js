@@ -24,7 +24,7 @@ const post = function() {
                     :users_who_rated="parseInt(post.users_who_rated)"
                 ></stars>
 
-                <b-card-text>{{ post.body }}</b-card-text>
+                <b-card-text style="whiteSpace: break-spaces;">{{ post.body }}</b-card-text>
 
                 <router-link 
                     :to="{name: 'posts'}"

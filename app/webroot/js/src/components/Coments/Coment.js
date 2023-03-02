@@ -1,7 +1,7 @@
 (function() {
     const template = /*html*/`
     <b-card :title="coment.user">
-        <b-card-text>{{ coment.coment }}</b-card-text>
+        <b-card-text style="whiteSpace: break-spaces;">{{ coment.coment }}</b-card-text>
         <b-button v-if="showDelete" type="button" variant="danger" @click="deleteComent(coment.id, coment.user)">Eliminar comentario</b-button>
     </b-card>
     `;
