@@ -12,8 +12,10 @@ const postsCreate = function() {
                     id="input-1"
                     v-model="form.title"
                     placeholder="Introduce el título del post"
+                    @keydown="validateLength"
                     required
                 ></b-form-input>
+                <b-form-text>Máximo 50 caracteres.</b-form-text>
             </b-form-group>
 
             <b-form-group 
@@ -39,7 +41,17 @@ const postsCreate = function() {
                 drop-placeholder="Suelta tu imagen aquí"
                 required
             ></b-form-file>
-            <div class="my-3">Archivo seleccionado: {{ form.file ? form.file.name : '' }}</div>
+
+            <div class="my-3">
+                <b-img 
+                    ref="uploaded-image"
+                    v-if="form.file" 
+                    thumbnail fluid 
+                    :src="imagePreview" 
+                    :alt="form.title"
+                    style="maxWidth: 500px;"
+                ></b-img>
+           </div>
 
             <b-button type="submit" variant="primary">Agregar post</b-button>
             <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
@@ -74,20 +86,30 @@ const postsCreate = function() {
 
                 if (this.form.title && this.form.body && this.form.file) {
 
-                    const formData = new FormData();
-                    formData.append("title", this.form.title);
-                    formData.append("body", this.form.body);
-                    formData.append("image", this.form.file);
-    
-                    fetch('https://black.digitum.com.mx/retax/blog/practica/posts', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(() => {
-                        this.$router.push({
-                            name: "posts"
+                    const imageValidation = this.validateImage(this.$refs["uploaded-image"], this.form.file);
+
+                    if (imageValidation.pass) {
+
+                        const formData = new FormData();
+                        formData.append("title", this.trimTitle(this.form.title));
+                        formData.append("body", this.form.body);
+                        formData.append("image", this.form.file);
+        
+                        fetch('https://black.digitum.com.mx/retax/blog/practica/posts', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(() => {
+                            this.$router.push({
+                                name: "posts"
+                            });
                         });
-                    });
+
+                    }
+                    else {
+                        this.showMessage("¡Un momento!", imageValidation.message, 3);
+                        this.form.file = null;
+                    }
 
                 }
                 else {
@@ -108,7 +130,7 @@ const postsCreate = function() {
 
         },
 
-        mixins: [messagesMixin],
+        mixins: [messagesMixin, stringsMixin, imagesMixin],
 
         template
 

@@ -17,7 +17,9 @@ const edit = function() {
                         id="input-1"
                         v-model="form.title"
                         placeholder="Introduce el título del post"
+                        @keydown="validateLength"
                     ></b-form-input>
+                    <b-form-text>Máximo 50 caracteres.</b-form-text>
                 </b-form-group>
             
                 <b-form-group 
@@ -40,7 +42,17 @@ const edit = function() {
                     placeholder="Elige una imagen o arrástrala aquí"
                     drop-placeholder="Suelta tu imagen aquí"
                 ></b-form-file>
-                <div class="my-3">Archivo seleccionado: {{ form.file ? form.file.name : '' }}</div>
+                
+                <div class="my-3">
+                    <b-img 
+                        ref="uploaded-image"
+                        v-if="form.file" 
+                        thumbnail fluid 
+                        :src="imagePreview" 
+                        :alt="form.title"
+                        style="maxWidth: 500px;"
+                    ></b-img>
+                </div>
             
                 <b-button type="submit" variant="primary">Editar post</b-button>
                 <b-button type="reset" variant="danger">Reiniciar formulario</b-button>
@@ -111,19 +123,31 @@ const edit = function() {
             onSubmit(event) {
 
                 event.preventDefault();
-
-                const formData = new FormData();
                 
                 if (this.form.title || this.form.body || this.form.file) {
 
+                    const formData = new FormData();
+                    
                     if(this.form.title)
-                        formData.append("title", this.form.title);
+                        formData.append("title", this.trimTitle(this.form.title));
                     
                     if(this.form.body)
                         formData.append("body", this.form.body);
                     
-                    if(this.form.file)
-                        formData.append("image", this.form.file);
+                    if(this.form.file) {
+
+                        const imageValidation = this.validateImage(this.$refs["uploaded-image"], this.form.file);
+
+                        if (imageValidation.pass) {
+                            formData.append("image", this.form.file);
+                        }
+                        else {
+                            this.showMessage("¡Un momento!", imageValidation.message, 3);
+                            this.form.file = null;
+                            return false;
+                        }
+
+                    }
 
                     fetch(`https://black.digitum.com.mx/retax/blog/practica/posts/${this.$route.params.id}`, {
                         method: 'POST',
@@ -161,7 +185,7 @@ const edit = function() {
 
         },
 
-        mixins: [messagesMixin],
+        mixins: [messagesMixin, stringsMixin, imagesMixin],
 
         template
 
