@@ -18,6 +18,8 @@
             variant="secondary"
         ></b-icon>
 
+        <span class="text-muted">({{ fixedRating }})</span>
+
     </div>
     `;
 
@@ -26,7 +28,8 @@
         data() {
             return {
                 starsOn: 0,
-                starsOff: 5
+                starsOff: 5,
+                fixedRating: 0
             }
         },
 
@@ -45,6 +48,7 @@
 
                 this.starsOn = Math.round(rating);
                 this.starsOff = 5 - this.starsOn;
+                this.fixedRating = rating.toFixed(2);
             }
 
         },
