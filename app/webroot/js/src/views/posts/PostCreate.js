@@ -49,7 +49,7 @@ const postsCreate = function() {
                     thumbnail fluid 
                     :src="imagePreview" 
                     :alt="form.title"
-                    style="maxWidth: 500px;"
+                    style="maxWidth: 500px; width: 100%"
                 ></b-img>
            </div>
 

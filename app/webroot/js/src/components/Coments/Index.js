@@ -68,24 +68,29 @@
 
                 event.preventDefault();
 
-                const data = {
-                    post_id: this.postId,
-                    user: this.newComent.user,
-                    coment: this.newComent.text
-                }
+                if (this.newComent.user != "" && this.newComent.text != "") {
+                    const data = {
+                        post_id: this.postId,
+                        user: this.newComent.user,
+                        coment: this.newComent.text
+                    }
 
-                fetch('https://black.digitum.com.mx/retax/blog/practica/coments', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then(response => {
-                    this.comentsList.push(response.payload.Coment);
-                    this.newComent.text = ''
-                });
+                    fetch('https://black.digitum.com.mx/retax/blog/practica/coments', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then(response => {
+                        this.comentsList.push(response.payload.Coment);
+                        this.newComent.text = ''
+                    });
+                }
+                else {
+                    this.showMessage("¡Un momento!", "¡Completa todos los campos!", 3);
+                }
 
             },
 
@@ -111,7 +116,7 @@
             }
         },
 
-        mixins: [cookiesMixin],
+        mixins: [cookiesMixin, messagesMixin],
 
         template
 
